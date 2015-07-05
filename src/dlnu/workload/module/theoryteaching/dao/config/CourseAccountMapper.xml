@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.theoryteaching.dao.CourseAccountDao">
+	<resultMap type="CourseAccount" id="CourseAccountMap">
+		<id column="ca_id" property="id" />
+		<result column="ca_semester" property="semester" />
+		<result column="ca_course_name" property="courseName" />
+		<result column="ca_student" property="student" />
+		<result column="ca_course_num" property="courseNum" />
+		<result column="ca_course_repnum" property="courseRepnum" />
+		<result column="ca_class_hour" property="classHour" />
+		<result column="ca_type_factor" property="typeFactor" />
+		<result column="ca_rep_factor" property="repFactor" />
+		<result column="ca_workload" property="workload" />
+		<result column="ca_campus" property="campus" />
+		<result column="ca_status" property="status" />
+		<result column="c_id" property="course.id" />
+		<result column="c_name" property="course.name" />
+		<result column="u_id" property="teacher.id" />
+		<result column="u_name" property="teacher.name" />
+	</resultMap>
+	<insert id="insert" parameterType="Course">
+	  <![CDATA[
+	    insert into t_course_account(id, semester, course,
+	                                 course_name, teacher,
+	                                 student, course_num, course_repnum,
+	                                 class_hour, type_factor, rep_factor,
+	                                 workload, campus) 
+	        values(#{id }, #{semester }, #{course.id },
+	               #{courseName }, #{teacher.id },
+	               #{student }, #{courseNum }, #{courseRepnum },
+	               #{classHour }, #{typeFactor }, #{repFactor },
+	               #{workload }, #{campus })
+	  ]]>
+	</insert>
+	<delete id="delete" parameterType="CourseAccount">
+	   <![CDATA[
+	      delete from t_course_account
+	      where
+	        id = #{id }
+	   ]]>
+	</delete>
+	<update id="update" parameterType="CourseAccount">
+	   <![CDATA[
+	      update t_course_account
+	      set
+	        student = #{student },
+	        course_num = #{courseNum },
+	        course_repnum = #{courseRepnum },
+	        class_hour = #{classHour },
+	        type_factor = #{typeFactor },
+	        rep_factor = #{repFactor },
+	        workload = #{workload },
+	        campus = #{campus }
+	      where
+	        id = #{id }
+	   ]]>
+	</update>
+	<select id="selectOne" parameterType="CourseAccount" resultMap="CourseAccountMap">
+	   <![CDATA[
+	     select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.course_name as ca_course_name,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       ca.status as ca_status,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	     where
+	       ca.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectAll" resultMap="CourseAccountMap">
+	   <![CDATA[
+	     select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.course_name as ca_course_name,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       ca.status as ca_status,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="CourseAccountMap">
+		<![CDATA[
+		  select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.course_name as ca_course_name,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       ca.status as ca_status,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	    ]]>
+	</select>
+	<select id="selectByConditions" parameterType="map" resultMap="CourseAccountMap">
+		<![CDATA[
+	    select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       ca.status as ca_status,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	   ]]>
+		<where>
+			<if test="semester != null">
+				ca.semester = #{semester }
+			</if>
+			<if test="teacher != null">
+				and ca.teacher = #{teacher }
+			</if>
+			<if test="college != null">
+				and u.college = #{college }
+			</if>
+			<if test="major != null">
+				and u.major = #{major }
+			</if>
+			<if test="orders != null">
+				order by #{orders }
+			</if>
+		</where>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="CourseAccountMap">
+		<![CDATA[
+	    select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       ca.status as ca_status,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	   ]]>
+		<where>
+			<if test="teacher != null">
+				ca.teacher = #{teacher }
+			</if>
+			<if test="semester != null">
+				and ca.semester = #{semester }
+			</if>
+			<if test="college != null">
+				and u.college = #{college }
+			</if>
+			<if test="major != null">
+				and u.major = #{major }
+			</if>
+		</where>
+	</select>
+	<select id="selectByCollegeAndName" parameterType="CourseAccount"
+		resultMap="CourseAccountMap">
+		<![CDATA[
+	      select
+	       ca.id as ca_id,
+	       ca.semester as ca_semester,
+	       ca.course as ca_course,
+	       ca.course_name as ca_course_name,
+	       ca.teacher as ca_teacher,
+	       ca.student as ca_student,
+	       ca.course_num as ca_course_num,
+	       ca.course_repnum as ca_course_repnum,
+	       ca.class_hour as ca_class_hour,
+	       ca.type_factor as ca_type_factor,
+	       ca.rep_factor as ca_rep_factor,
+	       ca.workload as ca_workload,
+	       ca.campus as ca_campus,
+	       c.id as c_id,
+	       c.name as c_name,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_course_account ca
+	     left join t_course c on c.id = ca.course
+	     left join t_user u on u.id = ca.teacher
+	   ]]>
+	</select>
+	<update id="updateStatus" parameterType="CourseAccount">
+	  <![CDATA[
+	    update t_course_account
+	      set status = #{status }
+	    where 
+	        id = #{id }
+	  ]]>
+	</update>
+	<select id="se" parameterType="CourseAccount" resultMap="CourseAccountMap">
+		<![CDATA[
+		  ca.semester = #{semester }
+	     and ca.course = #{course.id }
+	     and ca.user = #{user.id }   
+		]]>
+	</select>
+</mapper>  

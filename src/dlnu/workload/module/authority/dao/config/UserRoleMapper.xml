@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.authority.dao.UserRoleDao">
+	<resultMap type="UserRole" id="UserRoleMap">
+		<id column="u_id" property="user.id" />
+		<id column="r_id" property="role.id" />
+		<result column="u_name" property="user.name" />
+		<result column="r_roles" property="role.roles" />
+	</resultMap>
+	<insert id="insert">
+	   <![CDATA[
+	      insert into t_user_role
+	                  (user, role)
+	            values(#{user.id }, #{role.id })
+	   ]]>
+	</insert>
+	<delete id="delete" parameterType="UserRole">
+	   <![CDATA[
+	      delete from t_user_role
+	      where
+	            user = #{user.id }
+	        and role = #{role.id }
+	   ]]>
+	</delete>
+	<select id="selectOne" parameterType="UserRole" resultMap="UserRoleMap">
+	  <![CDATA[
+         select
+           ur.user as ur_user,
+           ur.role as ur_role,
+           u.id as u_id,
+           u.name as u_name,
+           r.id as r_id,
+           r.roles as r_roles
+         from t_user_role ur
+         left join t_user u on u.id = ur.user
+         left join t_role r on r.id = ur.role
+         where
+              ur.user = #{user.id }
+	        and ur.role = #{role.id }
+	  ]]>
+	</select>
+	<select id="selectAll" resultMap="UserRoleMap">
+	<![CDATA[
+	   select
+           ur.user as ur_user,
+           ur.role as ur_role,
+           u.id as u_id,
+           u.name as u_name,
+           r.id as r_id,
+           r.roles as r_roles
+         from t_user_role ur
+         left join t_user u on u.id = ur.user
+         left join t_role r on r.id = ur.role
+	]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="UserRoleMap">
+	  <![CDATA[
+	     select
+           ur.user as ur_user,
+           ur.role as ur_role,
+           u.id as u_id,
+           u.name as u_name,
+           r.id as r_id,
+           r.roles as r_roles
+         from t_user_role ur
+         left join t_user u on u.id = ur.user
+         left join t_role r on r.id = ur.role
+	  ]]>
+	</select>
+	<select id="selectByUser" parameterType="string" resultMap="UserRoleMap">
+	  <![CDATA[
+	     select
+           ur.user as ur_user,
+           ur.role as ur_role,
+           u.id as u_id,
+           u.name as u_name,
+           r.id as r_id,
+           r.roles as r_roles
+         from t_user_role ur
+         left join t_user u on u.id = ur.user
+         left join t_role r on r.id = ur.role
+         WHERE
+           ur.user = #{userId }
+	  ]]>
+	</select>
+	<select id="selectByRole" parameterType="integer" resultMap="UserRoleMap">
+	  <![CDATA[
+	     select
+           ur.user as ur_user,
+           ur.role as ur_role,
+           u.id as u_id,
+           u.name as u_name,
+           r.id as r_id,
+           r.roles as r_roles
+         from t_user_role ur
+         left join t_user u on u.id = ur.user
+         left join t_role r on r.id = ur.role
+         WHERE
+           ur.user = #{userId }
+	  ]]>
+	</select>
+</mapper>  

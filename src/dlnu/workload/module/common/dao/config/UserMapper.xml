@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.common.dao.UserDao">
+	<resultMap type="User" id="UserMap">
+		<id column="u_id" property="id" />
+		<result column="u_name" property="name" />
+		<result column="u_workload" property="workload" />
+		<result column="u_price" property="price" />
+		<result column="u_remark" property="remark" />
+		<result column="u_status" property="status" />
+		<result column="u_password" property="password" />
+		<result column="u_salt" property="salt" />
+		<result column="c_id" property="college.id" />
+		<result column="c_name" property="college.name" />
+		<result column="m_id" property="major.id" />
+		<result column="m_name" property="major.name" />
+		<result column="t_id" property="teacherTitle.id" />
+		<result column="t_name" property="teacherTitle.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="User">
+	    <![CDATA[
+	      insert into t_user
+	              (id, name, college, 
+		           major, teacher_title, workload,
+		           price, remark, password,
+		           salt) 
+		     values(#{id}, #{name}, #{college.id},
+		           #{major.id}, #{teacherTitle.id}, #{workload},
+		           #{price}, #{remark}, #{password},
+		           #{salt})
+	    ]]>
+	</insert>
+	<update id="update">
+	   <![CDATA[
+	      update t_user
+	      set
+	        name = #{name },
+	        college = #{college.id },
+	        major = #{major.id },
+	        teacher_title = #{teacherTitle.id },
+	        workload = #{workload },
+	        price = #{price },
+	        remark = #{remark }
+	      where
+	        id = #{id }    
+	   ]]>
+	</update>
+	<select id="selectOne" parameterType="User" resultMap="UserMap">
+	  <![CDATA[
+	    select
+	    u.id as u_id,
+	    u.name as u_name,
+	    u.college as u_college,
+	    u.major as u_major,
+	    u.teacher_title as u_teacher_title,
+	    u.workload as u_workload,
+	    u.price as u_price,
+	    u.remark as u_remark,
+	    u.status as u_status,
+	    u.password as u_password,
+	    u.salt as u_salt,
+	    c.id as c_id,
+	    c.name as c_name,
+	    m.id as m_id,
+	    m.name as m_name,
+	    t.id as t_id,
+	    t.name as t_name
+	  from t_user u
+	  left join t_college c on u.college = c.id
+	  left join t_major m on u.major = m.id
+	  left join t_teacher_title t on u.teacher_title = t.id
+	  where u.id = #{id }
+	  ]]>
+	</select>
+	<select id="selectAll" resultMap="UserMap">
+	<![CDATA[
+	  select
+	    u.id as u_id,
+	    u.name as u_name,
+	    u.college as u_college,
+	    u.major as u_major,
+	    u.teacher_title as u_teacher_title,
+	    u.workload as u_workload,
+	    u.price as u_price,
+	    u.remark as u_remark,
+	    u.status as u_status,
+	    u.password as u_password,
+	    u.salt as u_salt,
+	    c.id as c_id,
+	    c.name as c_name,
+	    m.id as m_id,
+	    m.name as m_name,
+	    t.id as t_id,
+	    t.name as t_name
+	  from t_user u
+	  left join t_college c on u.college = c.id
+	  left join t_major m on u.major = m.id
+	  left join t_teacher_title t on u.teacher_title = t.id
+	]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="UserMap">
+	  <![CDATA[
+	    select
+	    u.id as u_id,
+	    u.name as u_name,
+	    u.college as u_college,
+	    u.major as u_major,
+	    u.teacher_title as u_teacher_title,
+	    u.workload as u_workload,
+	    u.price as u_price,
+	    u.remark as u_remark,
+	    u.status as u_status,
+	    u.password as u_password,
+	    u.salt as u_salt,
+	    c.id as c_id,
+	    c.name as c_name,
+	    m.id as m_id,
+	    m.name as m_name,
+	    t.id as t_id,
+	    t.name as t_name
+	  from t_user u
+	  left join t_college c on u.college = c.id
+	  left join t_major m on u.major = m.id
+	  left join t_teacher_title t on u.teacher_title = t.id
+	  ]]>
+		<where>
+			<if test="college != null">
+				u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND u.major = #{major }
+			</if>
+			<if test="name != null">
+				AND u.name like CONCAT('%', #{name }, '%')
+			</if>
+		</where>
+	</select>
+	<select id="selectRoles" parameterType="string" resultType="string">
+	  <![CDATA[
+	    select
+	      r.roles
+	    from t_user_role ur
+	    left join t_user u on u.id = ur.user
+	    left join t_role r on r.id = ur.role
+	    where ur.user = #{userId }
+	  ]]>
+	</select>
+	<select id="selectPermissions" parameterType="string"
+		resultType="string">
+	  <![CDATA[
+	    select
+	      p.permissions
+	    from t_user u, t_role r, t_permission p, t_user_role ur, t_role_permission rp
+	    where u.id = #{userId }
+	    and u.id = ur.user
+	    and r.id = ur.role
+	    and r.id = rp.role 
+	    and p.id = rp.permission
+	  ]]>
+	</select>
+	<update id="updatePassword" parameterType="User">
+	   <![CDATA[
+	      update t_user
+	      set
+	        password = #{password },
+	        salt = #{salt }
+	      where
+	        id = #{id }
+	   ]]>
+	</update>
+	<select id="selectByMajor" resultMap="UserMap">
+	<![CDATA[
+	  select
+	    u.id as u_id,
+	    u.name as u_name,
+	    u.college as u_college,
+	    u.major as u_major,
+	    u.teacher_title as u_teacher_title,
+	    u.workload as u_workload,
+	    u.price as u_price,
+	    u.remark as u_remark,
+	    u.status as u_status,
+	    u.password as u_password,
+	    u.salt as u_salt,
+	    c.id as c_id,
+	    c.name as c_name,
+	    m.id as m_id,
+	    m.name as m_name,
+	    t.id as t_id,
+	    t.name as t_name
+	  from t_user u
+	  left join t_college c on u.college = c.id
+	  left join t_major m on u.major = m.id
+	  left join t_teacher_title t on u.teacher_title = t.id
+	  where
+	    u.major = #{id }
+	]]>
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.authority.dao.RoleDao">
+	<resultMap type="Role" id="RoleMap">
+		<id column="r_id" property="id" />
+		<result column="r_roles" property="roles" />
+		<result column="r_description" property="description" />
+		<result column="r_available" property="available" />
+	</resultMap>
+	<select id="selectOne" parameterType="Role" resultMap="RoleMap">
+	  <![CDATA[
+         select
+           r.id as r_id,
+           r.roles as r_roles,
+           r.description as r_description,
+           r.available as r_available
+         from t_role r
+         where
+           id = #{id }
+	  ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="RoleMap">
+	  <![CDATA[
+	     select
+           r.id as r_id,
+           r.roles as r_roles,
+           r.description as r_description,
+           r.available as r_available
+         from t_role r
+	  ]]>
+	</select>
+</mapper>  

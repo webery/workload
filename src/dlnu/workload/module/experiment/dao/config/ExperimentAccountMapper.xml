@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.experiment.dao.ExperimentAccountDao">
+	<resultMap type="ExperimentAccount" id="ExperimentAccountMap">
+		<id column="ea_id" property="id" />
+		<result column="ea_semester" property="semester" />
+		<result column="ea_experiment_name" property="experimentName" />
+		<result column="ea_period" property="period" />
+		<result column="ea_operiod" property="operiod" />
+		<result column="ea_course_num" property="courseNum" />
+		<result column="ea_course_repnum" property="courseRepnum" />
+		<result column="ea_class_stunum" property="classStunum" />
+		<result column="ea_class_time" property="classTime" />
+		<result column="ea_factor" property="factor" />
+		<result column="ea_workload" property="workload" />
+		<result column="ea_create_date" property="createDate" />
+		<result column="ea_campus" property="campus" />
+		<result column="ea_status" property="status" />
+		<result column="e_id" property="experiment.id" />
+		<result column="e_name" property="experiment.name" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<insert id="insert" parameterType="Course">
+	  <![CDATA[
+	    insert into t_experiment_account
+	                (id, semester, experiment,
+	                 experiment_name, period, operiod,
+	                 course_num, course_repnum, class_stunum,
+	                 class_time, factor, workload,
+	                 creator, create_date, campus,
+	                 status)
+	         values(#{id }, #{semester }, #{experiment.id },
+	                #{experimentName }, #{period }, #{operiod },
+	                #{courseNum }, #{courseRepnum }, #{classStunum },
+	                #{classTime }, #{factor }, #{workload },
+	                #{creator.id }, #{createDate }, #{campus },
+	                #{status })
+	  ]]>
+	</insert>
+	<delete id="delete" parameterType="ExperimentAccount">
+		delete from
+		t_experiment_account
+		where
+		id = #{id }
+	</delete>
+	<update id="update" parameterType="ExperimentAccount">
+		update t_experiment_account
+		set
+		campus = #{campus }
+		where
+		id = #{id }
+	</update>
+	<select id="selectOne" parameterType="ExperimentAccount"
+		resultMap="ExperimentAccountMap">
+	   <![CDATA[
+	      select
+	        ea.id as ea_id,
+	        ea.semester as ea_semester,
+	        ea.experiment as ea_experiment,
+	        ea.experiment_name as ea_experiment_name,
+	        ea.period as ea_period,
+	        ea.operiod as ea_operiod,
+	        ea.course_num as ea_course_num,
+	        ea.course_repnum as ea_course_repnum,
+	        ea.class_stunum as ea_class_stunum,
+	        ea.class_time as ea_class_time,
+	        ea.factor as ea_factor,
+	        ea.workload as ea_workload,
+	        ea.creator as ea_creator,
+	        ea.create_date as ea_create_date,
+	        ea.campus as ea_campus,
+	        ea.status as ea_status,
+	        e.id as e_id,
+	        e.name as e_name,
+	        u.id as u_id,
+	        u.name as u_name
+	      from t_experiment_account ea
+	      left join t_experiment e on e.id = ea.experiment
+	      left join t_user u on u.id = ea.creator
+	      where
+	        ea.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectAll" resultMap="ExperimentAccountMap">
+	   <![CDATA[
+	      select
+	        ea.id as ea_id,
+	        ea.semester as ea_semester,
+	        ea.experiment as ea_experiment,
+	        ea.experiment_name as ea_experiment_name,
+	        ea.period as ea_period,
+	        ea.operiod as ea_operiod,
+	        ea.course_num as ea_course_num,
+	        ea.course_repnum as ea_course_repnum,
+	        ea.class_stunum as ea_class_stunum,
+	        ea.class_time as ea_class_time,
+	        ea.factor as ea_factor,
+	        ea.workload as ea_workload,
+	        ea.creator as ea_creator,
+	        ea.create_date as ea_create_date,
+	        ea.campus as ea_campus,
+	        ea.status as ea_status,
+	        e.id as e_id,
+	        e.name as e_name,
+	        u.id as u_id,
+	        u.name as u_name
+	      from t_experiment_account ea
+	      left join t_experiment e on e.id = ea.experiment
+	      left join t_user u on u.id = ea.creator
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="ExperimentAccountMap">
+		<![CDATA[
+		   select
+	        ea.id as ea_id,
+	        ea.semester as ea_semester,
+	        ea.experiment as ea_experiment,
+	        ea.experiment_name as ea_experiment_name,
+	        ea.period as ea_period,
+	        ea.operiod as ea_operiod,
+	        ea.course_num as ea_course_num,
+	        ea.course_repnum as ea_course_repnum,
+	        ea.class_stunum as ea_class_stunum,
+	        ea.class_time as ea_class_time,
+	        ea.factor as ea_factor,
+	        ea.workload as ea_workload,
+	        ea.creator as ea_creator,
+	        ea.create_date as ea_create_date,
+	        ea.campus as ea_campus,
+	        ea.status as ea_status,
+	        e.id as e_id,
+	        e.name as e_name,
+	        u.id as u_id,
+	        u.name as u_name
+	      from t_experiment_account ea
+	      left join t_experiment e on e.id = ea.experiment
+	      left join t_user u on u.id = ea.creator
+	    ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="ExperimentAccountMap">
+		<![CDATA[
+		   select
+	        ea.id as ea_id,
+	        ea.semester as ea_semester,
+	        ea.experiment as ea_experiment,
+	        ea.experiment_name as ea_experiment_name,
+	        ea.period as ea_period,
+	        ea.operiod as ea_operiod,
+	        ea.course_num as ea_course_num,
+	        ea.course_repnum as ea_course_repnum,
+	        ea.class_stunum as ea_class_stunum,
+	        ea.class_time as ea_class_time,
+	        ea.factor as ea_factor,
+	        ea.workload as ea_workload,
+	        ea.creator as ea_creator,
+	        ea.create_date as ea_create_date,
+	        ea.campus as ea_campus,
+	        ea.status as ea_status,
+	        e.id as e_id,
+	        e.name as e_name,
+	        u.id as u_id,
+	        u.name as u_name
+	      from t_experiment_account ea
+	      left join t_experiment e on e.id = ea.experiment
+	      left join t_user u on u.id = ea.creator
+	    ]]>
+		<where>
+			<if test="semester != null">
+				ea.semester = #{semester }
+			</if>
+			<if test="creator != null">
+				AND ea.creator = #{creator }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND u.major = #{major }
+			</if>
+		</where>
+	</select>
+	<select id="selectByConditions" parameterType="map"
+		resultMap="ExperimentAccountMap">
+		<![CDATA[
+		   select
+	        ea.id as ea_id,
+	        ea.semester as ea_semester,
+	        ea.experiment as ea_experiment,
+	        ea.experiment_name as ea_experiment_name,
+	        ea.period as ea_period,
+	        ea.operiod as ea_operiod,
+	        ea.course_num as ea_course_num,
+	        ea.course_repnum as ea_course_repnum,
+	        ea.class_stunum as ea_class_stunum,
+	        ea.class_time as ea_class_time,
+	        ea.factor as ea_factor,
+	        ea.workload as ea_workload,
+	        ea.creator as ea_creator,
+	        ea.create_date as ea_create_date,
+	        ea.campus as ea_campus,
+	        ea.status as ea_status,
+	        e.id as e_id,
+	        e.name as e_name,
+	        u.id as u_id,
+	        u.name as u_name
+	      from t_experiment_account ea
+	      left join t_experiment e on e.id = ea.experiment
+	      left join t_user u on u.id = ea.creator
+	    ]]>
+		<where>
+			<if test="semester != null">
+				ea.semester = #{semester }
+			</if>
+			<if test="creator != null">
+				AND ea.creator = #{creator }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND u.major = #{major }
+			</if>
+		</where>
+	</select>
+	<update id="updateWithItems" parameterType="ExperimentAccount">
+	   <![CDATA[
+	      update t_experiment_account
+		  set
+		   period = #{period },
+		   operiod = #{operiod },
+		   course_num = #{courseNum },
+		   course_repnum = #{courseRepnum },
+		   class_stunum = #{classStunum },
+		   class_time = #{classTime },
+		   workload = #{workload }
+		   where
+		   id = #{id }
+	   ]]>
+	</update>
+</mapper>  

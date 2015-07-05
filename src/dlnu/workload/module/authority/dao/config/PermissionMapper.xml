@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.authority.dao.PermissionDao">
+	<resultMap type="Permission" id="PermissionMap">
+		<id column="p_id" property="id" />
+		<result column="p_permissions" property="permissions" />
+		<result column="p_description" property="description" />
+		<result column="p_available" property="available" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="Permission">
+	    <![CDATA[
+	      insert into t_permission(id, permissions, description) 
+	                        values(#{id },{permissions },{description })
+	    ]]>
+	</insert>
+	<select id="selectOne" parameterType="Permission" resultMap="PermissionMap">
+	  <![CDATA[
+	    select
+	      p.id as p_id,
+	      p.permissions as p_permissions,
+	      p.description as p_description,
+	      p.role as p_role,
+	      p.available as p_available
+	    from t_permission p
+	    where
+	      id = #{id }
+	  ]]>
+	</select>
+	<select id="selectAll" resultMap="PermissionMap">
+	<![CDATA[
+	   select
+	      p.id as p_id,
+	      p.permissions as p_permissions,
+	      p.description as p_description,
+	      p.role as p_role,
+	      p.available as p_available
+	    from t_permission p
+	]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="PermissionMap">
+	  <![CDATA[
+	     select
+	      p.id as p_id,
+	      p.permissions as p_permissions,
+	      p.description as p_description,
+	      p.role as p_role,
+	      p.available as p_available
+	    from t_permission p
+	  ]]>
+	</select>
+</mapper>  

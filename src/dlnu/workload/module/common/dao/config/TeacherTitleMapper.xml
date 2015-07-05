@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.common.dao.TeacherTitleDao">
+	<resultMap type="TeacherTitle" id="TeacherTitleMap">
+		<id column="t_id" property="id" />
+		<result column="t_name" property="name" />
+		<result column="t_workload" property="workload" />
+		<result column="t_price" property="price" />
+		<result column="t_status" property="status" />
+	</resultMap>
+	<select id="selectAll" resultMap="TeacherTitleMap">
+	   <![CDATA[
+	     select
+		   t.id as t_id,
+		   t.name as t_name,
+		   t.workload as t_workload,
+		   t.price as t_price,
+		   t.status as t_status
+		 from t_teacher_title t
+	   ]]>
+	</select>
+</mapper>  

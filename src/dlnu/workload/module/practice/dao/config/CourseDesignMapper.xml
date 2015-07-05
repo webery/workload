@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.CourseDesignDao">
+	<resultMap type="CourseDesign" id="CourseDesignMap">
+		<id column="cd_id" property="id" />
+		<result column="cd_name" property="name" />
+		<result column="cd_remark" property="remark" />
+		<result column="cd_name" property="name" />
+		<result column="cd_create_date" property="createDate" />
+		<result column="cd_status" property="status" />
+		<result column="c_id" property="college.id" />
+		<result column="c_name" property="college.name" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="CourseDesign">
+	  <![CDATA[
+	    insert into t_coursedesign(id, name, college,
+	                              remark, creator, create_date) 
+	                        values(#{id }, #{name }, #{college.id },
+	                               #{remark }, #{creator.id }, #{createDate })
+	  ]]>
+	</insert>
+	<update id="update" parameterType="CourseDesign">
+	  <![CDATA[
+	    update t_coursedesign
+	      set 
+	        name = #{name },
+	        remark = #{remark }
+	     where
+	         id = #{id }
+	     and college = #{college.id }
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="CourseDesignMap">
+	   <![CDATA[
+	      select
+	      cd.id as cd_id ,
+	      cd.name as cd_name,
+	      cd.college as cd_college,
+	      cd.remark as cd_remark,
+	      cd.creator as cd_creator,
+	      cd.create_date as cd_create_date,
+	      cd.status as cd_status,
+	      c.id as c_id,
+	      c.name as c_name,
+	      u.id as u_id,
+	      u.name as u_name
+	      from t_coursedesign cd 
+	      left join t_college c on c.id = cd.college
+	      left join t_user u on u.id = cd.creator
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="CourseDesignMap">
+	   <![CDATA[
+		 select
+	      cd.id as cd_id ,
+	      cd.name as cd_name,
+	      cd.college as cd_college,
+	      cd.remark as cd_remark,
+	      cd.creator as cd_creator,
+	      cd.create_date as cd_create_date,
+	      cd.status as cd_status,
+	      c.id as c_id,
+	      c.name as c_name,
+	      u.id as u_id,
+	      u.name as u_name
+	      from t_coursedesign cd 
+	      left join t_college c on c.id = cd.college
+	      left join t_user u on u.id = cd.creator  
+	   ]]>
+
+	</select>
+	<select id="selectOne" parameterType="College" resultMap="CourseDesignMap">
+		<![CDATA[
+	       select
+	      cd.id as cd_id ,
+	      cd.name as cd_name,
+	      cd.college as cd_college,
+	      cd.remark as cd_remark,
+	      cd.creator as cd_creator,
+	      cd.create_date as cd_create_date,
+	      cd.status as cd_status,
+	      c.id as c_id,
+	      c.name as c_name,
+	      u.id as u_id,
+	      u.name as u_name
+	      from t_coursedesign cd 
+	      left join t_college c on c.id = cd.college
+	      left join t_user u on u.id = cd.creator
+	      where
+	        cd.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="CourseDesignMap">
+		<![CDATA[
+	      select
+	      cd.id as cd_id ,
+	      cd.name as cd_name,
+	      cd.college as cd_college,
+	      cd.remark as cd_remark,
+	      cd.creator as cd_creator,
+	      cd.create_date as cd_create_date,
+	      cd.status as cd_status,
+	      c.id as c_id,
+	      c.name as c_name,
+	      u.id as u_id,
+	      u.name as u_name
+	      from t_coursedesign cd 
+	      left join t_college c on c.id = cd.college
+	      left join t_user u on u.id = cd.creator
+	   ]]>
+		<where>
+			<if test="college != null">
+				cd.college = #{college }
+			</if>
+			<if test="name != null">
+				AND cd.name like CONCAT('%', #{name },'%')
+			</if>
+		</where>
+	</select>
+	<select id="selectByCollegeAndName" parameterType="CourseDesign"
+		resultMap="CourseDesignMap">
+		<![CDATA[
+	       select
+	      cd.id as cd_id ,
+	      cd.name as cd_name,
+	      cd.college as cd_college,
+	      cd.remark as cd_remark,
+	      cd.creator as cd_creator,
+	      cd.create_date as cd_create_date,
+	      cd.status as cd_status,
+	      c.id as c_id,
+	      c.name as c_name,
+	      u.id as u_id,
+	      u.name as u_name
+	      from t_coursedesign cd 
+	      left join t_college c on c.id = cd.college
+	      left join t_user u on u.id = cd.creator
+	      where
+	            cd.college = #{college.id }
+	        and cd.name = #{name }
+	   ]]>
+	</select>
+	<update id="updateStatus" parameterType="CourseDesign">
+	  <![CDATA[
+	    update t_coursedesign
+	    set status = #{status }
+	    where id = #{id }
+	  ]]>
+	</update>
+</mapper>  

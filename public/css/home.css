@@ -1,0 +1,25 @@
+
+.home-background {
+    text-align: left;
+    background-color: #000;
+    background-image: url("../images/home_bg.jpg");
+    background-repeat: no-repeat;
+    padding: 0px;
+    height: 428px;
+    background-position: 0px 66%;
+    background-size: 100% auto;
+}
+
+
+/*footer*/
+.light .footer {
+    background-color: #F1F1F1;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #D1D1D1;
+    position: relative;
+}
+
+.footer {
+    font-size: 14px;
+    color: #999;
+}

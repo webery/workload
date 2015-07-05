@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.CdesignActTeacherDao">
+	<resultMap type="CdesignActTeacher" id="CdesignActTeacherMap">
+		<id column="cat_id" property="id" />
+		<result column="cat_workload" property="workload" />
+		<result column="cat_period" property="period" />
+		<result column="cat_remark" property="remark" />
+		<result column="cat_status" property="status" />
+		<result column="ca_id" property="cdesignAccount.id" />
+		<result column="ca_semester" property="cdesignAccount.semester" />
+		<result column="ca_coursedesigns" property="cdesignAccount.cdesignAccount.id" />
+		<result column="u_id" property="teacher.id" />
+		<result column="u_name" property="teacher.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="CdesignActTeacher">
+	  <![CDATA[
+	    insert into t_cdesign_act_teacher
+	               (id, cdesign_account, teacher,
+	                workload, period, remark) 
+	         values(#{id }, #{cdesignAccount.id}, #{teacher.id },
+	                #{workload }, #{period }, #{remark })
+	  ]]>
+	</insert>
+	<update id="update" parameterType="CdesignActTeacher">
+	  <![CDATA[
+	    select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="CdesignActTeacherMap">
+	   <![CDATA[
+	    select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="CdesignActTeacherMap">
+	   <![CDATA[
+		 select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	   ]]>
+
+	</select>
+	<select id="selectOne" parameterType="CdesignActTeacher"
+		resultMap="CdesignActTeacherMap">
+		<![CDATA[
+	     select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="CdesignActTeacherMap">
+		<![CDATA[
+	      select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	   ]]>
+		<where>
+			<if test="teacher != null">
+				cat.teacher = #{teacher }
+			</if>
+			<if test="semester != null">
+				AND ca.semester = #{semester }
+			</if>
+		</where>
+	</select>
+	<update id="updateStatus" parameterType="CdesignActTeacher">
+	  <![CDATA[
+	    update t_cdesign_act_teacher
+	    set status = #{status }
+	    where id = #{id }
+	  ]]>
+	</update>
+	<select id="selectByCdesignAccount" parameterType="string"
+		resultMap="CdesignActTeacherMap">
+		<![CDATA[
+	      select
+	      cat.id as cat_id,
+	      cat.cdesign_account as cat_cdesign_account,
+	      cat.teacher as cat_teacher,
+	      cat.workload as cat_workload,
+	      cat.period as cat_period,
+	      cat.remark as cat_remark,
+	      cat.status as cat_status,
+	      ca.id as ca_id,
+	      ca.semester as ca_semester,
+	      ca.coursedesign as ca_coursedesign,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_act_teacher cat
+	    left join t_cdesign_account ca on ca.id = cat.cdesign_account
+	    left join t_user u on u.id = cat.teacher
+	    WHERE
+	      cat.cdesign_account = #{cdesignAccountId }
+	   ]]>
+	</select>
+	<delete id="deletesByCdesignAccount" parameterType="string">
+		delete from
+		t_cdesign_act_teacher
+		WHERE
+		cdesign_account = #{cdesignAccountId }
+	</delete>
+</mapper>  

@@ -1,0 +1,17 @@
+
+.navbar-workload {
+	background-color: rgba(0, 0, 0, 0.3);
+	margin-bottom: 32px;
+}
+
+.navbar-offset {
+	
+}
+
+.navbar-item-active {
+	background-color: #82F00C;
+}
+
+.glyphicon:hover {
+	cursor: pointer;
+}

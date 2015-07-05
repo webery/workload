@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.experiment.dao.ExperimentDao">
+	<resultMap type="Experiment" id="ExperimentMap">
+		<id column="cs_id" property="id" />
+		<result column="cs_name" property="name" />
+		<result column="cs_remark" property="remark" />
+		<result column="cs_create_date" property="createDate" />
+		<result column="cs_status" property="status" />
+		<result column="clg_id" property="college.id" />
+		<result column="clg_name" property="college.name" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="Experiment">
+	  <![CDATA[
+	    insert into t_experiment
+	                (id, name, college,
+	                 remark, creator, create_date,
+	                 status) 
+	          values(#{id }, #{name}, #{college.id},
+	                 #{remark },  #{creator.id }, #{createDate },
+	                 #{status})
+	  ]]>
+	</insert>
+	<update id="update" parameterType="Experiment">
+	  <![CDATA[
+	    update t_experiment
+	    set name = #{name },
+	        remark = #{remark }
+	    where
+	      id = #{id }
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="ExperimentMap">
+	   <![CDATA[
+	    select
+		   cs.id as cs_id,
+		   cs.name as
+		   cs_name,
+		   cs.college as cs_college,
+		   cs.remark as remark,
+		   cs.creator as cs_creator,
+		   cs.create_date as cs_create_date,
+		   cs.status as cs_status,
+		   clg.id as clg_id,
+		   clg.name as clg_name,
+		   u.id as u_id,
+		   u.name as u_name
+		 from t_experiment cs
+		   left join t_college clg on clg.id = cs.college
+		   left join t_user u on u.id = cs.creator 
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="ExperimentMap">
+		select
+		<![CDATA[
+	    select
+		   cs.id as cs_id,
+		   cs.name as
+		   cs_name,
+		   cs.college as cs_college,
+		   cs.remark as remark,
+		   cs.creator as cs_creator,
+		   cs.create_date as cs_create_date,
+		   cs.status as cs_status,
+		   clg.id as clg_id,
+		   clg.name as clg_name,
+		   u.id as u_id,
+		   u.name as u_name
+		 from t_experiment cs
+		   left join t_college clg on clg.id = cs.college
+		   left join t_user u on u.id = cs.creator
+	   ]]>
+
+	</select>
+	<select id="selectOne" parameterType="College" resultMap="ExperimentMap">
+		<![CDATA[
+	     select
+		   cs.id as cs_id,
+		   cs.name as
+		   cs_name,
+		   cs.college as cs_college,
+		   cs.remark as remark,
+		   cs.creator as cs_creator,
+		   cs.create_date as cs_create_date,
+		   cs.status as cs_status,
+		   clg.id as clg_id,
+		   clg.name as clg_name,
+		   u.id as u_id,
+		   u.name as u_name
+		 from t_experiment cs
+		   left join t_college clg on clg.id = cs.college
+		   left join t_user u on u.id = cs.creator 
+		 where cs.id = #{id}
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="ExperimentMap">
+		<![CDATA[
+	   select
+		   cs.id as cs_id,
+		   cs.name as
+		   cs_name,
+		   cs.college as cs_college,
+		   cs.remark as remark,
+		   cs.creator as cs_creator,
+		   cs.create_date as cs_create_date,
+		   cs.status as cs_status,
+		   clg.id as clg_id,
+		   clg.name as clg_name,
+		   u.id as u_id,
+		   u.name as u_name
+		 from t_experiment cs
+		   left join t_college clg on clg.id = cs.college
+		   left join t_user u on u.id = cs.creator 
+	   ]]>
+		<where>
+			<if test="college != null">
+				AND cs.college = #{college }
+			</if>
+			<if test="name != null">
+				AND cs.name like CONCAT('%', #{name },'%')
+			</if>
+		</where>
+	</select>
+	<select id="selectByCollegeAndName" parameterType="Experiment"
+		resultMap="ExperimentMap">
+		<![CDATA[
+	    select
+		   cs.id as cs_id,
+		   cs.name as
+		   cs_name,
+		   cs.college as cs_college,
+		   cs.remark as remark,
+		   cs.creator as cs_creator,
+		   cs.create_date as cs_create_date,
+		   cs.status as cs_status,
+		   clg.id as clg_id,
+		   clg.name as clg_name,
+		   u.id as u_id,
+		   u.name as u_name
+		 from t_experiment cs
+		   left join t_college clg on clg.id = cs.college
+		   left join t_user u on u.id = cs.creator
+		 where
+		     cs.college = #{college.id }
+		 and cs.name = #{name }
+	   ]]>
+	</select>
+	<update id="updateStatus" parameterType="Experiment">
+	  <![CDATA[
+	    update t_experiment
+	    set status = #{status }
+	    where id = #{id }
+	  ]]>
+	</update>
+</mapper>  

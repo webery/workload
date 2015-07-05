@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.authority.dao.RolePermissionDao">
+	<resultMap type="RolePermission" id="RolePermissionMap">
+		<id column="rp_role" property="route.id" />
+		<id column="rp_permission" property="permission.id" />
+		<result column="r.roles" property="route.roles" />
+		<result column="p_permissions" property="permission.permissions" />
+	</resultMap>
+	<select id="selectOne" parameterType="RolePermission" resultMap="RolePermissionMap">
+	  <![CDATA[
+	  ]]>
+	</select>
+	<select id="selectAll" resultMap="RolePermissionMap">
+	<![CDATA[
+	  select
+	      rp.role as rp_role,
+	      rp.permission as rp_permission,
+	      r.id as r_id,
+	      r.roles as r_roles,
+	      p.id as p_id,
+	      p.permissions as p_permissions
+	    from t_role_permission rp
+	    left join t_role r on r.id = rp.role
+	    left join t_permission p on p.id = rp.permission
+	]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="RolePermissionMap">
+	  <![CDATA[
+	    select
+	      rp.role as rp_role,
+	      rp.permission as rp_permission,
+	      r.id as r_id,
+	      r.roles as r_roles,
+	      p.id as p_id,
+	      p.permissions as p_permissions
+	    from t_role_permission rp
+	    left join t_role r on r.id = rp.role
+	    left join t_permission p on p.id = rp.permission
+	  ]]>
+	</select>
+</mapper>  

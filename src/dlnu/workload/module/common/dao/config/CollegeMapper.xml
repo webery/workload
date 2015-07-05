@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.common.dao.CollegeDao">
+	<resultMap type="College" id="CollegeMap">
+		<id column="c_id" property="id" />
+		<result column="c_name" property="name" />
+		<result column="c_status" property="status" />
+	</resultMap>
+	<select id="selectOne" parameterType="College" resultMap="CollegeMap">
+		select
+		c.id as c_id,
+		c.name as
+		c_name,
+		c.status as c_status
+		from t_college c
+		where
+		c.id = #{id }
+	</select>
+	<select id="selectAll" resultMap="CollegeMap">
+		select
+		c.id as c_id,
+		c.name as
+		c_name,
+		c.status as c_status
+		from t_college c
+	</select>
+</mapper>  

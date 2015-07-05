@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.CdesignAccountDao">
+	<resultMap type="CdesignAccount" id="CdesignAccountMap">
+		<id column="cda_id" property="id" />
+		<result column="cda_semester" property="semester" />
+		<result column="cda_coursedesign_name" property="coursedesignName" />
+		<result column="cda_major" property="major.id" />
+		<result column="cda_grade" property="grade" />
+		<result column="cda_class_num" property="classNum" />
+		<result column="cda_week_num" property="weekNum" />
+		<result column="cda_preday" property="preday" />
+		<result column="cda_workload" property="workload" />
+		<result column="cda_period" property="period" />
+		<result column="cda_campus" property="campus" />
+		<result column="cda_create_date" property="createDate" />
+		<result column="cda_remark" property="remark" />
+		<result column="cda_status" property="status" />
+		<result column="cd_id" property="courseDesign.id" />
+		<result column="cd_name" property="courseDesign.name" />
+		<result column="m_id" property="major.id" />
+		<result column="m_name" property="major.name" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="CdesignAccount">
+	  <![CDATA[
+	    insert into t_cdesign_account
+	                (id, semester, coursedesign,
+	                 coursedesign_name, major, grade,
+	                 class_num, week_num, preday,
+	                 workload, period, campus,
+	                 creator, create_date, remark) 
+	         values(#{id }, #{semester }, #{courseDesign.id },
+	                #{coursedesignName }, #{major.id }, #{grade },
+	                #{classNum }, #{weekNum }, #{preday },
+	                #{workload }, #{period }, #{campus },
+	                #{creator.id }, #{createDate }, #{remark })
+	  ]]>
+	</insert>
+	<delete id="delete" parameterType="CdesignAccount">
+		delete from t_cdesign_account
+		where
+		id = #{id }
+	</delete>
+	<update id="update" parameterType="CdesignAccount">
+	   <![CDATA[
+	      update t_cdesign_account
+	      set
+	        grade = #{grade },
+	        class_num = #{classNum },
+	        week_num = #{weekNum },
+	        preday = #{preday },
+	        workload = #{workload },
+	        period = #{period },
+	        campus = #{campus },
+	        remark = #{remark }
+	      where
+	        id = #{id }
+	   ]]>
+	</update>
+	<select id="selectOne" parameterType="CdesignAccount" resultMap="CdesignAccountMap">
+		<![CDATA[
+		select
+	      cda.id as cda_id,
+	      cda.semester as cda_semester,
+	      cda.coursedesign as cda_coursedesign,
+	      cda.coursedesign_name as cda_coursedesign_name,
+	      cda.major as cda_major,
+	      cda.grade as cda_grade,
+	      cda.class_num as cda_class_num,
+	      cda.week_num as cda_week_num,
+	      cda.preday as cda_preday,
+	      cda.workload as cda_workload,
+	      cda.period as cda_period,
+	      cda.campus as cda_campus,
+	      cda.creator as cda_creator,
+	      cda.create_date as cda_create_date,
+	      cda.remark as cda_remark,
+	      cda.status as cda_status,
+	      cd.id as cd_id,
+	      cd.name as cd_name,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_account cda
+	    left join t_coursedesign cd on cd.id = cda.coursedesign
+	    left join t_major m on m.id = cda.major
+	    left join t_user u on u.id = cda.creator
+	    WHERE
+	      cda.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="CdesignAccountMap">
+		<![CDATA[
+		  select
+	      cda.id as cda_id,
+	      cda.semester as cda_semester,
+	      cda.coursedesign as cda_coursedesign,
+	      cda.coursedesign_name as cda_coursedesign_name,
+	      cda.major as cda_major,
+	      cda.grade as cda_grade,
+	      cda.class_num as cda_class_num,
+	      cda.week_num as cda_week_num,
+	      cda.preday as cda_preday,
+	      cda.workload as cda_workload,
+	      cda.period as cda_period,
+	      cda.campus as cda_campus,
+	      cda.creator as cda_creator,
+	      cda.create_date as cda_create_date,
+	      cda.remark as cda_remark,
+	      cda.status as cda_status,
+	      cd.id as cd_id,
+	      cd.name as cd_name,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_account cda
+	    left join t_coursedesign cd on cd.id = cda.coursedesign
+	    left join t_major m on m.id = cda.major
+	    left join t_user u on u.id = cda.creator
+	   ]]>
+		<where>
+			<if test="semester != null">
+				cda.semester = #{semester }
+			</if>
+			<if test="creator != null">
+				AND cda.creator = #{creator }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND cda.major = #{major }
+			</if>
+		</where>
+	</select>
+	<update id="updateStatus" parameterType="CdesignAccount">
+	  <![CDATA[
+	    update t_cdesign_account
+	    set status = #{status }
+	    where id = #{id }
+	  ]]>
+	</update>
+	<select id="selectByConditions" parameterType="map"
+		resultMap="CdesignAccountMap">
+		<![CDATA[
+		  select
+	      cda.id as cda_id,
+	      cda.semester as cda_semester,
+	      cda.coursedesign as cda_coursedesign,
+	      cda.coursedesign_name as cda_coursedesign_name,
+	      cda.major as cda_major,
+	      cda.grade as cda_grade,
+	      cda.class_num as cda_class_num,
+	      cda.week_num as cda_week_num,
+	      cda.preday as cda_preday,
+	      cda.workload as cda_workload,
+	      cda.period as cda_period,
+	      cda.campus as cda_campus,
+	      cda.creator as cda_creator,
+	      cda.create_date as cda_create_date,
+	      cda.remark as cda_remark,
+	      cda.status as cda_status,
+	      cd.id as cd_id,
+	      cd.name as cd_name,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_cdesign_account cda
+	    left join t_coursedesign cd on cd.id = cda.coursedesign
+	    left join t_major m on m.id = cda.major
+	    left join t_user u on u.id = cda.creator
+	   ]]>
+		<where>
+			<if test="semester != null">
+				cda.semester = #{semester }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND cda.major = #{major }
+			</if>
+		</where>
+	</select>
+</mapper>  

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.experiment.dao.ExpActTeacherDao">
+	<resultMap type="ExpActTeacher" id="ExpActTeacherMap">
+		<id column="eat_id" property="id" />
+		<result column="eat_p_workload" property="pWorkload" />
+		<result column="eat_w_workload" property="wWorkload" />
+		<result column="eat_c_workload" property="cWorkload" />
+		<result column="eat_period" property="period" />
+		<result column="ea_id" property="expAccount.id" />
+		<result column="ea_semester" property="expAccount.semester" />
+		<result column="ea_experiment" property="expAccount.experiment.id" />
+		<result column="u_id" property="teacher.id" />
+		<result column="u_name" property="teacher.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="ExpActTeacher">
+	  <![CDATA[
+	    insert into t_experiment_act_teacher
+	                (id, exp_account, teacher,
+	                 p_workload, w_workload, c_workload,
+	                 period) 
+	          values(#{id }, #{expAccount.id }, #{teacher.id },
+	                 #{pWorkload }, #{wWorkload }, #{cWorkload },
+	                 #{period })
+	  ]]>
+	</insert>
+	<update id="update" parameterType="ExpActTeacher">
+	  <![CDATA[
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="ExpActTeacherMap">
+	   <![CDATA[
+	     select
+	       eat.id as eat_id,
+	       eat.exp_account as eat_exp_account,
+	       eat.teacher as eat_teacher,
+	       eat.p_workload as eat_p_workload,
+	       eat.w_workload as eat_w_workload,
+	       eat.c_workload as eat_c_workload,
+	       eat.period as eat_period,
+	       ea.id as ea_id,
+	       ea.semester as ea_semester,
+	       ea.experiment as ea_experiment,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_experiment_act_teacher eat
+	     left join t_experiment_account ea on ea.id = eat.exp_account
+	     left join t_user u on u.id = eat.teacher
+	   ]]>
+	</select>
+	<select id="selectOne" parameterType="ExpActTeacher" resultMap="ExpActTeacherMap">
+		<![CDATA[
+	      select
+	       eat.id as eat_id,
+	       eat.exp_account as eat_exp_account,
+	       eat.teacher as eat_teacher,
+	       eat.p_workload as eat_p_workload,
+	       eat.w_workload as eat_w_workload,
+	       eat.c_workload as eat_c_workload,
+	       eat.period as eat_period,
+	       ea.id as ea_id,
+	       ea.semester as ea_semester,
+	       ea.experiment as ea_experiment,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_experiment_act_teacher eat
+	     left join t_experiment_account ea on ea.id = eat.exp_account
+	     left join t_user u on u.id = eat.teacher
+	     where
+	       eat.id = {id }
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="ExpActTeacherMap">
+		<![CDATA[
+		    select
+	       eat.id as eat_id,
+	       eat.exp_account as eat_exp_account,
+	       eat.teacher as eat_teacher,
+	       eat.p_workload as eat_p_workload,
+	       eat.w_workload as eat_w_workload,
+	       eat.c_workload as eat_c_workload,
+	       eat.period as eat_period,
+	       ea.id as ea_id,
+	       ea.semester as ea_semester,
+	       ea.experiment as ea_experiment,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_experiment_act_teacher eat
+	     left join t_experiment_account ea on ea.id = eat.exp_account
+	     left join t_user u on u.id = eat.teacher
+	    ]]>
+	</select>
+	<select id="selectByConditions" parameterType="map" resultMap="ExpActTeacherMap">
+		<![CDATA[
+		    select
+	       eat.id as eat_id,
+	       eat.exp_account as eat_exp_account,
+	       eat.teacher as eat_teacher,
+	       eat.p_workload as eat_p_workload,
+	       eat.w_workload as eat_w_workload,
+	       eat.c_workload as eat_c_workload,
+	       eat.period as eat_period,
+	       ea.id as ea_id,
+	       ea.semester as ea_semester,
+	       ea.experiment as ea_experiment,
+	       u.id as u_id,
+	       u.name as u_name
+	     from t_experiment_act_teacher eat
+	     left join t_experiment_account ea on ea.id = eat.exp_account
+	     left join t_user u on u.id = eat.teacher
+	    ]]>
+		<where>
+			<if test="expAccount != null">
+				eat.exp_account = #{expAccount }
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByExpAccount" parameterType="ExperimentAccount">
+		delete from
+		t_experiment_act_teacher
+		where
+		exp_account = #{id }
+	</delete>
+</mapper>  

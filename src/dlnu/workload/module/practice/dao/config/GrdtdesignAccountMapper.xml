@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.GrdtdesignAccountDao">
+	<resultMap type="GrdtdesignAccount" id="GrdtdesignAccountMap">
+		<id column="gda_id" property="id" />
+		<result column="gda_semester" property="semester" />
+		<result column="gda_grade" property="grade" />
+		<result column="gda_class_num" property="classNum" />
+		<result column="gda_stu_num" property="stuNum" />
+		<result column="gda_week_num" property="weekNum" />
+		<result column="gda_factor" property="factor" />
+		<result column="gda_workload" property="workload" />
+		<result column="gda_campus" property="campus" />
+		<result column="gda_period" property="period" />
+		<result column="gda_create_date" property="createDate" />
+		<result column="gda_remark" property="remark" />
+		<result column="gda_status" property="status" />
+		<result column="m_id" property="major.id" />
+		<result column="m_name" property="major.name" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="GrdtdesignAccount">
+	  <![CDATA[
+	    insert into t_grdtdesign_account(id, semester, major,
+	                                     grade, class_num,
+	                                     stu_num, week_num, factor,
+	                                     workload, campus, period,
+	                                     creator, create_date, remark)
+	                              values(#{id }, #{semester }, #{major.id },
+	                                     #{grade }, #{classNum },
+	                                     #{stuNum }, #{weekNum }, #{factor },
+	                                     #{workload }, #{campus }, #{period }, 
+	                                     #{creator.id }, #{createDate }, #{remark })
+	  ]]>
+	</insert>
+	<delete id="delete" parameterType="GrdtdesignAccount">
+	   <![CDATA[
+	      delete from t_grdtdesign_account
+	      where
+	        id = #{id }
+	   ]]>
+	</delete>
+	<update id="update" parameterType="GrdtdesignAccount">
+	  <![CDATA[
+	     update t_grdtdesign_account
+	     set
+	       grade = #{grade},
+	       class_num = #{classNum},
+	       stu_num = #{stuNum},
+	       week_num = #{weekNum},
+	       factor = #{factor},
+	       workload = #{workload},
+	       campus = #{campus},
+	       period = #{period},
+	       remark = #{remark}
+	     where
+	       id = #{id }
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="GrdtdesignAccountMap">
+	   <![CDATA[
+	     select
+	      gda.id as gda_id,
+	      gda.semester as gda_semester,
+	      gda.major as gda_major,
+	      gda.grade as gda_grade,
+	      gda.class_num as gda_class_num,
+	      gda.stu_num as gda_stu_num,
+	      gda.week_num as gda_week_num,
+	      gda.factor as gda_factor,
+	      gda.workload as gda_workload,
+	      gda.campus as gda_campus,
+	      gda.period as gda_period,
+	      gda.creator as gda_creator,
+	      gda.create_date as gda_create_date,
+	      gda.remark as gda_remark,
+	      gda.status as gda_status,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_account gda
+	    left join t_major m on m.id = gda.major
+	    left join t_user u on u.id = gda.creator
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="GrdtdesignAccountMap">
+	   <![CDATA[
+	   ]]>
+	</select>
+	<select id="selectOne" parameterType="GrdtdesignAccount"
+		resultMap="GrdtdesignAccountMap">
+		<![CDATA[
+		  select
+	      gda.id as gda_id,
+	      gda.semester as gda_semester,
+	      gda.major as gda_major,
+	      gda.grade as gda_grade,
+	      gda.class_num as gda_class_num,
+	      gda.stu_num as gda_stu_num,
+	      gda.week_num as gda_week_num,
+	      gda.factor as gda_factor,
+	      gda.workload as gda_workload,
+	      gda.campus as gda_campus,
+	      gda.period as gda_period,
+	      gda.creator as gda_creator,
+	      gda.create_date as gda_create_date,
+	      gda.remark as gda_remark,
+	      gda.status as gda_status,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_account gda
+	    left join t_major m on m.id = gda.major
+	    left join t_user u on u.id = gda.creator
+	    where
+	      gda.id = #{id }
+	    ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="GrdtdesignAccountMap">
+		<![CDATA[
+		   select
+	      gda.id as gda_id,
+	      gda.semester as gda_semester,
+	      gda.major as gda_major,
+	      gda.grade as gda_grade,
+	      gda.class_num as gda_class_num,
+	      gda.stu_num as gda_stu_num,
+	      gda.week_num as gda_week_num,
+	      gda.factor as gda_factor,
+	      gda.workload as gda_workload,
+	      gda.campus as gda_campus,
+	      gda.period as gda_period,
+	      gda.creator as gda_creator,
+	      gda.create_date as gda_create_date,
+	      gda.remark as gda_remark,
+	      gda.status as gda_status,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_account gda
+	    left join t_major m on m.id = gda.major
+	    left join t_user u on u.id = gda.creator
+	    ]]>
+		<where>
+			<if test="semester != null">
+				gda.semester = #{semester }
+			</if>
+			<if test="creator != null">
+				AND gda.creator = #{creator }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND gda.major = #{major }
+			</if>
+		</where>
+	</select>
+	<update id="updateStatus" parameterType="GrdtdesignAccount">
+	  <![CDATA[
+	    
+	  ]]>
+	</update>
+	<select id="selectBySemesterAndMajorAndGrade" parameterType="GrdtdesignAccount"
+		resultMap="GrdtdesignAccountMap">
+		<![CDATA[
+		  select
+	      gda.id as gda_id,
+	      gda.semester as gda_semester,
+	      gda.major as gda_major,
+	      gda.grade as gda_grade,
+	      gda.class_num as gda_class_num,
+	      gda.stu_num as gda_stu_num,
+	      gda.week_num as gda_week_num,
+	      gda.factor as gda_factor,
+	      gda.workload as gda_workload,
+	      gda.campus as gda_campus,
+	      gda.period as gda_period,
+	      gda.creator as gda_creator,
+	      gda.create_date as gda_create_date,
+	      gda.remark as gda_remark,
+	      gda.status as gda_status,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_account gda
+	    left join t_major m on m.id = gda.major
+	    left join t_user u on u.id = gda.creator
+	    where
+	          gda.semester = #{semester }
+	      and gda.major = #{major.id }
+	      and gda.grade = #{grade }
+	    ]]>
+	</select>
+	<select id="selectByConditions" parameterType="map"
+		resultMap="GrdtdesignAccountMap">
+		<![CDATA[
+		   select
+	      gda.id as gda_id,
+	      gda.semester as gda_semester,
+	      gda.major as gda_major,
+	      gda.grade as gda_grade,
+	      gda.class_num as gda_class_num,
+	      gda.stu_num as gda_stu_num,
+	      gda.week_num as gda_week_num,
+	      gda.factor as gda_factor,
+	      gda.workload as gda_workload,
+	      gda.campus as gda_campus,
+	      gda.period as gda_period,
+	      gda.creator as gda_creator,
+	      gda.create_date as gda_create_date,
+	      gda.remark as gda_remark,
+	      gda.status as gda_status,
+	      m.id as m_id,
+	      m.name as m_name,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_account gda
+	    left join t_major m on m.id = gda.major
+	    left join t_user u on u.id = gda.creator
+	    ]]>
+		<where>
+			<if test="semester != null">
+				gda.semester = #{semester }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND gda.major = #{major }
+			</if>
+		</where>
+	</select>
+</mapper>  

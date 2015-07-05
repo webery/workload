@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.ProjectAccountDao">
+	<resultMap type="ProjectAccount" id="ProjectAccountMap">
+		<id column="pa_id" property="id" />
+		<result column="pa_semester" property="semester" />
+		<result column="pa_year" property="year" />
+		<result column="pa_spcode" property="spcode" />
+		<result column="pa_sworkload" property="sworkload" />
+		<result column="pa_mpcode" property="mpcode" />
+		<result column="pa_mworkload" property="mworkload" />
+		<result column="pa_mrworkload" property="mrworkload" />
+		<result column="pa_remark" property="remark" />
+		<result column="pa_create_date" property="createDate" />
+		<result column="u_id" property="creator.id" />
+		<result column="u_name" property="creator.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="ProjectAccount">
+	  <![CDATA[
+	     insert into t_project_account
+	                 (id, semester, creator,
+	                 year, spcode, sworkload,
+	                 mpcode, mworkload, mrworkload,
+	                 remark, create_date) 
+	           values(#{id}, #{semester}, #{creator.id},
+	                  #{year}, #{spcode}, #{sworkload},
+	                  #{mpcode}, #{mworkload}, #{mrworkload},
+	                  #{remark}, #{createDate})
+	  ]]>
+	</insert>
+	<delete id="delete" parameterType="ProjectAccount">
+	    <![CDATA[
+	       delete from t_project_account
+	       where
+	         id = #{id}
+	    ]]>
+	</delete>
+	<update id="update" parameterType="ProjectAccount">
+	   <![CDATA[
+	      update t_project_account
+	      set
+	        year = #{year },
+	        spcode = #{spcode },
+	        sworkload = #{sworkload },
+	        mpcode = #{mpcode },
+	        mworkload = #{mworkload },
+	        mrworkload = #{mrworkload },
+	        remark = #{remark }
+	      where
+	        id = #{id }
+	   ]]>
+	</update>
+	<select id="selectOne" parameterType="ProjectAccount" resultMap="ProjectAccountMap">
+		<![CDATA[
+		   select
+		     pa.id as pa_id,
+		     pa.semester as pa_semester,
+		     pa.creator as pa_creator,
+		     pa.year as pa_year,
+		     pa.spcode as pa_spcode,
+		     pa.sworkload as pa_sworkload,
+		     pa.mpcode as pa_mpcode,
+		     pa.mworkload as pa_mworkload,
+		     pa.mrworkload as pa_mrworkload,
+		     pa.remark as pa_remark,
+		     pa.create_date as pa_create_date,
+		     u.id as u_id,
+		     u.name as u_name
+		   from t_project_account pa
+		   left join t_user u on u.id = pa.creator
+		   where pa.id = #{id}
+	    ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="ProjectAccountMap">
+		<![CDATA[
+		   select
+		     pa.id as pa_id,
+		     pa.semester as pa_semester,
+		     pa.creator as pa_creator,
+		     pa.year as pa_year,
+		     pa.spcode as pa_spcode,
+		     pa.sworkload as pa_sworkload,
+		     pa.mpcode as pa_mpcode,
+		     pa.mworkload as pa_mworkload,
+		     pa.mrworkload as pa_mrworkload,
+		     pa.remark as pa_remark,
+		     pa.create_date as pa_create_date,
+		     u.id as u_id,
+		     u.name as u_name
+		   from t_project_account pa
+		   left join t_user u on u.id = pa.creator
+	    ]]>
+		<where>
+			<if test="creator != null">
+				pa.creator = #{creator }
+			</if>
+			<if test="semester != null">
+				AND pa.semester = #{semester }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND u.major = #{major }
+			</if>
+		</where>
+	</select>
+	<update id="updateStatus" parameterType="ProjectAccount">
+	  <![CDATA[
+	   
+	  ]]>
+	</update>
+	<select id="selectByConditions" parameterType="map"
+		resultMap="ProjectAccountMap">
+		<![CDATA[
+		   select
+		     pa.id as pa_id,
+		     pa.semester as pa_semester,
+		     pa.creator as pa_creator,
+		     pa.year as pa_year,
+		     pa.spcode as pa_spcode,
+		     pa.sworkload as pa_sworkload,
+		     pa.mpcode as pa_mpcode,
+		     pa.mworkload as pa_mworkload,
+		     pa.mrworkload as pa_mrworkload,
+		     pa.remark as pa_remark,
+		     pa.create_date as pa_create_date,
+		     u.id as u_id,
+		     u.name as u_name
+		   from t_project_account pa
+		   left join t_user u on u.id = pa.creator
+	    ]]>
+		<where>
+			<if test="semester != null">
+				pa.semester = #{semester }
+			</if>
+			<if test="college != null">
+				AND u.college = #{college }
+			</if>
+			<if test="major != null">
+				AND u.major = #{major }
+			</if>
+		</where>
+	</select>
+</mapper>  

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>     
+<!DOCTYPE configuration     
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"     
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<!-- common -->
+		<typeAlias type="dlnu.workload.module.common.model.College"
+			alias="College" />
+		<typeAlias type="dlnu.workload.module.common.model.Major"
+			alias="Major" />
+		<typeAlias type="dlnu.workload.module.common.model.Semester"
+			alias="Semester" />
+		<typeAlias type="dlnu.workload.module.common.model.TeacherTitle"
+			alias="TeacherTitle" />
+		<typeAlias type="dlnu.workload.module.common.model.User"
+			alias="User" />
+		<!-- authority -->
+		<typeAlias type="dlnu.workload.module.authority.model.Permission"
+			alias="Permission" />
+		<typeAlias type="dlnu.workload.module.authority.model.Role"
+			alias="Role" />
+		<typeAlias type="dlnu.workload.module.authority.model.RolePermission"
+			alias="RolePermission" />
+		<typeAlias type="dlnu.workload.module.authority.model.UserRole"
+			alias="UserRole" />
+		<!-- theoryteaching -->
+		<typeAlias type="dlnu.workload.module.theoryteaching.model.Course"
+			alias="Course" />
+		<typeAlias type="dlnu.workload.module.theoryteaching.model.CourseAccount"
+			alias="CourseAccount" />
+		<!-- experiment -->
+		<typeAlias type="dlnu.workload.module.experiment.model.ExpActTeacher"
+			alias="ExpActTeacher" />
+		<typeAlias type="dlnu.workload.module.experiment.model.Experiment"
+			alias="Experiment" />
+		<typeAlias type="dlnu.workload.module.experiment.model.ExperimentAccount"
+			alias="ExperimentAccount" />
+		<typeAlias type="dlnu.workload.module.experiment.model.ExperimentItem"
+			alias="ExperimentItem" />
+		<!-- practice -->
+		<typeAlias type="dlnu.workload.module.practice.model.CdesignAccount"
+			alias="CdesignAccount" />
+		<typeAlias type="dlnu.workload.module.practice.model.CdesignActTeacher"
+			alias="CdesignActTeacher" />
+		<typeAlias type="dlnu.workload.module.practice.model.CourseDesign"
+			alias="CourseDesign" />
+		<typeAlias type="dlnu.workload.module.practice.model.GrdtdesignAccount"
+			alias="GrdtdesignAccount" />
+		<typeAlias type="dlnu.workload.module.practice.model.GrdtdesignActTeacher"
+			alias="GrdtdesignActTeacher" />
+		<typeAlias type="dlnu.workload.module.practice.model.ProjectAccount"
+			alias="ProjectAccount" />
+	</typeAliases>
+	<plugins>
+		<plugin interceptor="dlnu.workload.framework.page.OffsetLimitInterceptor">
+			<property name="dialectClass"
+				value="dlnu.workload.framework.page.dialect.MySQLDialect" />
+		</plugin>
+	</plugins>
+</configuration>  

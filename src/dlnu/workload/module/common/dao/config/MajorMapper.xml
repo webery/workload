@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.common.dao.MajorDao">
+	<resultMap type="Major" id="MajorMap">
+		<id column="m_id" property="id" />
+		<result column="m_name" property="name" />
+		<result column="m_status" property="status" />
+		<result column="c_id" property="college.id" />
+		<result column="c_name" property="college.name" />
+	</resultMap>
+	<select id="selectOne" parameterType="Major" resultMap="MajorMap">
+	   <![CDATA[
+	     select
+		   m.id as m_id,
+		   m.name as m_name,
+		   m.college as m_college,
+		   m.status as m_status,
+		   c.id as c_id,
+		   c.name as c_name
+		 from t_major m
+		 left join t_college c on m.college = c.id
+		 where
+		   m.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectAll" resultMap="MajorMap">
+	   <![CDATA[
+	     select
+		   m.id as m_id,
+		   m.name as m_name,
+		   m.college as m_college,
+		   m.status as m_status,
+		   c.id as c_id,
+		   c.name as c_name
+		 from t_major m
+		 left join t_college c on m.college = c.id
+	   ]]>
+	</select>
+	<select id="selectByCollege" parameterType="string" resultMap="MajorMap">
+	   <![CDATA[
+	     select
+		   m.id as m_id,
+		   m.name as m_name,
+		   m.college as m_college,
+		   m.status as m_status,
+		   c.id as c_id,
+		   c.name as c_name
+		 from t_major m
+		 left join t_college c on m.college = c.id
+		 where m.college = #{collegeId}
+	   ]]>
+	</select>
+</mapper>  

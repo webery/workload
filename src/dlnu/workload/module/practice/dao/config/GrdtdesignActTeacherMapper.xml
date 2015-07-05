@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dlnu.workload.module.practice.dao.GrdtdesignActTeacherDao">
+	<resultMap type="GrdtdesignActTeacher" id="GrdtdesignActTeacherMap">
+		<id column="gat_id" property="id" />
+		<result column="gat_workload" property="workload" />
+		<result column="gat_period" property="period" />
+		<result column="gat_remark" property="remark" />
+		<result column="gat_status" property="status" />
+		<result column="ga_id" property="grdtdesignAccount.id" />
+		<result column="ga_semester" property="grdtdesignAccount.semester" />
+		<result column="ga_major" property="grdtdesignAccount.major.id" />
+		<result column="ga_grade" property="grdtdesignAccount.grade" />
+		<result column="u_id" property="teacher.id" />
+		<result column="u_name" property="teacher.name" />
+	</resultMap>
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="GrdtdesignActTeacher">
+	  <![CDATA[
+	    insert into t_grdtdesign_act_teacher(id, grdtdesign_account, teacher,
+	                                         workload, period, remark)
+	                                  values(#{id }, #{grdtdesignAccount.id }, #{teacher.id },
+	                                         #{workload }, #{period }, #{remark })
+	  ]]>
+	</insert>
+	<update id="update" parameterType="GrdtdesignActTeacher">
+	  <![CDATA[
+	  ]]>
+	</update>
+	<select id="selectAll" resultMap="GrdtdesignActTeacherMap">
+	   <![CDATA[
+	      select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	   ]]>
+	</select>
+	<select id="selectByStatus" resultMap="GrdtdesignActTeacherMap">
+	   <![CDATA[
+		  select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	   ]]>
+
+	</select>
+	<select id="selectOne" parameterType="GrdtdesignActTeacher"
+		resultMap="GrdtdesignActTeacherMap">
+		<![CDATA[
+	       select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	    where
+	      gat.id = #{id }
+	   ]]>
+	</select>
+	<select id="selectByConditionPage" parameterType="map"
+		resultMap="GrdtdesignActTeacherMap">
+		<![CDATA[
+	       select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	   ]]>
+		<where>
+			<if test="teacher != null">
+				gat.teacher = #{teacher }
+			</if>
+			<if test="semester != null">
+				AND ga.semester = #{semester }
+			</if>
+		</where>
+	</select>
+	<select id="selectByCollegeAndName" parameterType="GrdtdesignActTeacher"
+		resultMap="GrdtdesignActTeacherMap">
+		<![CDATA[
+	       select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	   ]]>
+	</select>
+	<update id="updateStatus" parameterType="GrdtdesignActTeacher">
+	  <![CDATA[
+	    update  t_grdtdesign_act_teacher
+	    set status = #{status }
+	    where id = #{id }
+	  ]]>
+	</update>
+	<select id="selectByGrdtdesignAccount" parameterType="string"
+		resultMap="GrdtdesignActTeacherMap">
+		<![CDATA[
+	      select
+	      gat.id as gat_id,
+	      gat.grdtdesign_account as gat_grdtdesign_account,
+	      gat.teacher as gat_teacher,
+	      gat.workload as gat_workload,
+	      gat.remark as gat_remark,
+	      gat.period as gat_period,
+	      gat.status as gat_status,
+	      ga.id as ga_id,
+	      ga.semester as ga_semester,
+	      ga.major as ga_major,
+	      ga.grade as ga_grade,
+	      u.id as u_id,
+	      u.name as u_name
+	    from t_grdtdesign_act_teacher gat
+	    left join t_grdtdesign_account ga on ga.id = gat.grdtdesign_account
+	    left join t_user u on u.id = gat.teacher
+	    where
+	      gat.grdtdesign_account = #{grdtdesignAccountId }
+	   ]]>
+	</select>
+	<delete id="deletesByGrdtdesignAccount" parameterType="string">
+	   <![CDATA[
+	      delete from t_grdtdesign_act_teacher
+	      where grdtdesign_account = #{grdtdesignAccountId }
+	   ]]>
+	</delete>
+</mapper>  
